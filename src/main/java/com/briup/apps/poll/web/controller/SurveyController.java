@@ -9,93 +9,94 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.briup.apps.poll.bean.Course;
-import com.briup.apps.poll.bean.User;
-import com.briup.apps.poll.service.IUserService;
+import com.briup.apps.poll.bean.Survey;
+import com.briup.apps.poll.service.ISurveyService;
 import com.briup.apps.poll.util.MsgResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(description = "用户相关API接口")
+@Api(description="评教相关接口")
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/survey")
+public class SurveyController {
+
 	/**
 	 * @return
 	 */
 	@Autowired
-	private IUserService userService;
-
-	@ApiOperation(value = "查询所有用户信息")
-	@GetMapping("findAllUser")
-	public MsgResponse findAllUser() {
+	private ISurveyService surveyService;
+	
+	@ApiOperation(value="查询出所有的评教信息")
+	@GetMapping("findAllSurvey")
+	public MsgResponse findAllSurvey(){
 		try {
-			List<User> list = userService.findAll();
+			List<Survey> list = surveyService.findAll();
 			return MsgResponse.success("success", list);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
 		}
 	}
-
-	@ApiOperation(value = "按关键字查询用户信息")
-	@GetMapping("queryUser")
-	public MsgResponse queryUser(String keywords) {
+	
+	@ApiOperation(value="通过关键字查询出评教信息")
+	@GetMapping("querySurvey")
+	public MsgResponse querySurvey(String keywords){
 		try {
-			List<User> list = userService.query(keywords);
+			List<Survey> list = surveyService.query(keywords);
 			return MsgResponse.success("success", list);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
 		}
 	}
-
-	@ApiOperation(value = "保存用户信息")
-	@PostMapping("saveUser")
-	public MsgResponse saveUser(User user) {
+	
+	@ApiOperation(value="通过id删除评教信息")
+	@GetMapping("deleteSurveyById")
+	public MsgResponse deleteSurveyById(@RequestParam Long id){
 		try {
-			userService.save(user);
+			surveyService.deleteById(id);
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
 		}
 	}
-
-	@ApiOperation(value = "修改用户信息")
-	@PostMapping("updateUser")
-	public MsgResponse updateUser(User user) {
+	
+	@ApiOperation(value="添加评教信息")
+	@PostMapping("saveSurvey")
+	public MsgResponse saveCourse(Survey survey){
 		try {
-			userService.update(user);
+			surveyService.save(survey);
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
 		}
 	}
-
-	@ApiOperation(value = "通过id删除用户信息")
-	@GetMapping("deleteByIdUser")
-	public MsgResponse deleteByIdUser(@RequestParam long id) {
+	
+	@ApiOperation(value="修改评教信息")
+	@PostMapping("updateSurvey")
+	public MsgResponse updateSurvey(Survey survey){
 		try {
-			userService.deleteById(id);
+			surveyService.update(survey);
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
 		}
 	}
-
-	@ApiOperation(value = "批量删除用户信息")
-	@GetMapping("batchDeleteUser")
-	public MsgResponse batchDeleteUser(long[] ids) {
+	
+	@ApiOperation(value="批量删除评教信息")
+	@GetMapping("batchDeleteSurvey")
+	public MsgResponse batchDeleteSurvey(long[] ids){
 		try {
-			userService.batchDelete(ids);
+			surveyService.batchDelete(ids);
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
 		}
 	}
+	
 }

@@ -6,96 +6,92 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.briup.apps.poll.bean.Course;
-import com.briup.apps.poll.bean.User;
-import com.briup.apps.poll.service.IUserService;
+import com.briup.apps.poll.bean.Grade;
+import com.briup.apps.poll.service.IGradeService;
 import com.briup.apps.poll.util.MsgResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-@Api(description = "用户相关API接口")
+@Api(description = "年级相关接口")
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/grade")
+
+public class GradeController {
 	/**
 	 * @return
 	 */
 	@Autowired
-	private IUserService userService;
-
-	@ApiOperation(value = "查询所有用户信息")
-	@GetMapping("findAllUser")
-	public MsgResponse findAllUser() {
+	private IGradeService gradeService;
+	@ApiOperation(value="查询所有年级")
+	@GetMapping("findAllGrade")
+	public MsgResponse findAllGrade(){
 		try {
-			List<User> list = userService.findAll();
+			List<Grade> list = gradeService.findAll();
 			return MsgResponse.success("success", list);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
 		}
 	}
-
-	@ApiOperation(value = "按关键字查询用户信息")
-	@GetMapping("queryUser")
-	public MsgResponse queryUser(String keywords) {
+	@ApiOperation(value="通过关键字查询年级")
+	@GetMapping("queryGrade")
+	public MsgResponse queryGrade(String keywords){
 		try {
-			List<User> list = userService.query(keywords);
+			List<Grade> list=gradeService.query(keywords);
 			return MsgResponse.success("success", list);
-		} catch (Exception e) {
+		} catch (Exception e) {		
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
-		}
+		}	
 	}
-
-	@ApiOperation(value = "保存用户信息")
-	@PostMapping("saveUser")
-	public MsgResponse saveUser(User user) {
+	
+	@ApiOperation(value="插入年级")
+	@PostMapping("saveGrade")
+	public MsgResponse saveGrade(Grade grade){
 		try {
-			userService.save(user);
+			gradeService.save(grade);
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
-		}
+		}	
 	}
-
-	@ApiOperation(value = "修改用户信息")
-	@PostMapping("updateUser")
-	public MsgResponse updateUser(User user) {
+	
+	@ApiOperation(value="修改年级信息")	
+	@PostMapping("updateGrade")
+	public MsgResponse updateGrade(Grade grade){
 		try {
-			userService.update(user);
+			gradeService.update(grade);
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
-		}
+		}	
 	}
-
-	@ApiOperation(value = "通过id删除用户信息")
-	@GetMapping("deleteByIdUser")
-	public MsgResponse deleteByIdUser(@RequestParam long id) {
+	@ApiOperation(value="通过ID删除年级")
+	@GetMapping("deleteByIdGrade")
+	public MsgResponse deleteByIdGrade(long id){
 		try {
-			userService.deleteById(id);
+			gradeService.deleteById(id);
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
-		}
+		}			
 	}
-
-	@ApiOperation(value = "批量删除用户信息")
-	@GetMapping("batchDeleteUser")
-	public MsgResponse batchDeleteUser(long[] ids) {
+	@ApiOperation(value="批量删除")
+	@GetMapping("batchDeleteGrade")
+	public MsgResponse batchDeleteGrade(long[] ids){
 		try {
-			userService.batchDelete(ids);
+			gradeService.batchDelete(ids);
 			return MsgResponse.success("success", null);
-		} catch (Exception e) {
+		} catch (Exception e) {			
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
-		}
+		}			
 	}
+	
+
 }
