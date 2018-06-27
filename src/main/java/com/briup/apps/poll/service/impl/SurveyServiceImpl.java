@@ -7,13 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.briup.apps.poll.bean.Survey;
 import com.briup.apps.poll.bean.SurveyExample;
+import com.briup.apps.poll.bean.extend.SurveyVM;
 import com.briup.apps.poll.dao.SurveyMapper;
+import com.briup.apps.poll.dao.extend.SurveyVMMapper;
 import com.briup.apps.poll.service.ISurveyService;
 @Service
 public class SurveyServiceImpl implements ISurveyService{
 
 	@Autowired
 	private SurveyMapper surveyMapper;
+	@Autowired SurveyVMMapper surveyVMMapper;
 	
 	@Override
 	public List<Survey> findAll() throws Exception {
@@ -23,6 +26,11 @@ public class SurveyServiceImpl implements ISurveyService{
 		return surveyMapper.selectByExample(example);
 	}
 
+	@Override
+	public List<SurveyVM> findAllSurveyVM() throws Exception {
+		return surveyVMMapper.selectAll();
+	}
+	
 	@Override
 	public List<Survey> query(String keywords) throws Exception {
 		SurveyExample example = new SurveyExample();

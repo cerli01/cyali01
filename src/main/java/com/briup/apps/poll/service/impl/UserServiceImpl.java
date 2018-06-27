@@ -32,18 +32,6 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public void save(User user) throws Exception {
-		// TODO Auto-generated method stub
-		userMapper.insert(user);
-	}
-
-	@Override
-	public void update(User user) throws Exception {
-		// TODO Auto-generated method stub
-		userMapper.updateByPrimaryKey(user);
-	}
-
-	@Override
 	public void deleteById(long id) throws Exception {
 		// TODO Auto-generated method stub
 		userMapper.deleteByPrimaryKey(id);
@@ -56,5 +44,17 @@ public class UserServiceImpl implements IUserService {
 			userMapper.deleteByPrimaryKey(id);
 		}
 	}
+
+	@Override
+	public void save(User user) throws Exception {
+		userMapper.insert(user);
+	}
+
+	@Override
+	public void update(User user) throws Exception {
+		userMapper.updateByPrimaryKey(user);
+	}
+
+
 
 }

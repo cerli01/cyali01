@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.briup.apps.poll.bean.Survey;
+import com.briup.apps.poll.bean.extend.SurveyVM;
 import com.briup.apps.poll.service.ISurveyService;
 import com.briup.apps.poll.util.MsgResponse;
 
@@ -32,6 +33,18 @@ public class SurveyController {
 	public MsgResponse findAllSurvey(){
 		try {
 			List<Survey> list = surveyService.findAll();
+			return MsgResponse.success("success", list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return MsgResponse.error(e.getMessage());
+		}
+	}
+	
+	@ApiOperation(value="查询出所有的评教信息",notes="每个评教信息中包含所属课程、所属班级、班主任姓名和问卷名字的信息")
+	@GetMapping("findAllSurveyVM")
+	public MsgResponse findAllSurveyVM(){
+		try {
+			List<SurveyVM> list = surveyService.findAllSurveyVM();
 			return MsgResponse.success("success", list);
 		} catch (Exception e) {
 			e.printStackTrace();

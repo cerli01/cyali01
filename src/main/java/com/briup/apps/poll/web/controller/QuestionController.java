@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.briup.apps.poll.bean.Course;
+import com.briup.apps.poll.bean.Options;
 import com.briup.apps.poll.bean.Question;
 import com.briup.apps.poll.bean.extend.QuestionVM;
+import com.briup.apps.poll.dao.OptionsMapper;
+import com.briup.apps.poll.dao.QuestionMapper;
+import com.briup.apps.poll.dao.extend.QuestionVMMapper;
 import com.briup.apps.poll.service.ICourseService;
 import com.briup.apps.poll.service.IQuestionService;
 import com.briup.apps.poll.util.MsgResponse;
@@ -29,6 +33,8 @@ public class QuestionController {
 	 */
 	@Autowired
 	private IQuestionService questionService;
+	@Autowired
+	private QuestionVMMapper  questionMapper;
 	
 	@ApiOperation(value="查询出所有的问题信息")
 	@GetMapping("findAllQuestion")
@@ -78,35 +84,24 @@ public class QuestionController {
 		}
 	}
 	
-	@ApiOperation(value="添加问题信息")
-	@PostMapping("saveQuestion")
-	public MsgResponse saveQuestion(Question question){
-		try {
-			questionService.save(question);
-			return MsgResponse.success("success", null);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return MsgResponse.error(e.getMessage());
-		}
-	}
-	
-	@ApiOperation(value="修改问题信息")
-	@PostMapping("updateQuestion")
-	public MsgResponse updateQuestion(Question question){
-		try {
-			questionService.update(question);
-			return MsgResponse.success("success", null);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return MsgResponse.error(e.getMessage());
-		}
-	}
-	
 	@ApiOperation(value="批量删除问题信息")
 	@GetMapping("batchDeleteQuestion")
 	public MsgResponse batchDeleteQuestion(long[] ids){
 		try {
 			questionService.batchDelete(ids);
+			return MsgResponse.success("success", null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return MsgResponse.error(e.getMessage());
+		}
+	}
+	
+	@ApiOperation(value="保存或修改问题信息",notes="如果题目id不为空，表示更新操作;如果题目id为空，表示保存操作")
+	@PostMapping("saveOrUpdateQuestion")
+	public MsgResponse saveOrUpdateQuestion(QuestionVM question){
+		try {
+			//调用service层代码完成保存和更新操作
+			questionService.saveOrUpdate(question);
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();

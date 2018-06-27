@@ -10,7 +10,7 @@ public interface IUserService {
 	List<User> query(String keywords) throws Exception;
 
 	void save(User user) throws Exception;
-
+	
 	void update(User user) throws Exception;
 
 	void deleteById(long id) throws Exception;

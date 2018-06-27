@@ -8,5 +8,5 @@ public interface ClazzVMMapper {
 
 	List<ClazzVM> selectAll();
 	
-	List<ClazzVM> findAllClazzVM();
+//	List<ClazzVM> findAllClazzVM();
 }

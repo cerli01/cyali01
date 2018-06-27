@@ -51,28 +51,20 @@ public class SchoolController {
 		}
 	}
 	
-	@ApiOperation(value="添加学校信息")
-	@PostMapping("saveSchool")
-	public MsgResponse saveSchool(School school){
+	@ApiOperation(value="添加或修改学校信息",notes="如果学校id不为空，表示更新操作;如果id为空，表示保存操作")
+	@PostMapping("saveOrUpdateSchool")
+	public MsgResponse saveOrUpdateSchool(School school){
 		try {
-			schoolService.save(school);
+			if(school!=null&&school.getId()!=null){
+				schoolService.save(school);
+			}else{
+				schoolService.update(school);
+			}
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MsgResponse.error(e.getMessage());
 		}
 	}
-	
-	@ApiOperation(value="修改学校信息")
-	@PostMapping("updateSchool")
-	public MsgResponse updateSchool(School school){
-		try {
-			schoolService.update(school);
-			return MsgResponse.success("success", null);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return MsgResponse.error(e.getMessage());
-		}
-	}
-	
+
 }

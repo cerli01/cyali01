@@ -61,38 +61,11 @@ public class CourseController {
 		}
 	}
 	
-	@ApiOperation(value="添加课程信息")
-	@PostMapping("saveCourse")
-	public MsgResponse saveCourse(Course course){
-		try {
-			courseService.save(course);
-			return MsgResponse.success("success", null);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return MsgResponse.error(e.getMessage());
-		}
-	}
-	
-	@ApiOperation(value="修改课程信息")
-	@PostMapping("updateCourse")
-	public MsgResponse updateCourse(Course course){
-		try {
-			courseService.update(course);
-			return MsgResponse.success("success", null);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return MsgResponse.error(e.getMessage());
-		}
-	}
-	
 	@ApiOperation(value="批量删除课程信息")
 	@GetMapping("batchDeleteCourse")
 	public MsgResponse batchDeleteCourse(long[] ids){
 		try {
-			
-			System.out.println("==================="+ids);
-			courseService.batchDelete(ids);
-			
+			courseService.batchDelete(ids);	
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -100,6 +73,22 @@ public class CourseController {
 		}
 	}
 	
+	@ApiOperation(value="保存或修改修改课程信息",notes="如果课程id不为空，表示更新操作;如果课程id为空，表示保存操作")
+	@PostMapping("saveOrUpdateCourse")
+	public MsgResponse saveOrUpdateCourse(Course course){
+		try {
+			if(course!=null&&course.getId()!=null){
+				courseService.update(course);
+			}else{
+				courseService.save(course);
+			}		
+			return MsgResponse.success("success", null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return MsgResponse.error(e.getMessage());
+		}
+	}
+		
 }
 
 

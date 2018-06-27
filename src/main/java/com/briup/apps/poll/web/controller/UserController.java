@@ -51,23 +51,15 @@ public class UserController {
 		}
 	}
 
-	@ApiOperation(value = "保存用户信息")
-	@PostMapping("saveUser")
-	public MsgResponse saveUser(User user) {
+	@ApiOperation(value="保存或修改修改课程信息",notes="如果用户id不为空，表示更新操作;如果用户id为空，表示保存操作")
+	@PostMapping("saveOrUpdateCourseuUser")
+	public MsgResponse saveOrUpdateUser(User user){
 		try {
-			userService.save(user);
-			return MsgResponse.success("success", null);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return MsgResponse.error(e.getMessage());
-		}
-	}
-
-	@ApiOperation(value = "修改用户信息")
-	@PostMapping("updateUser")
-	public MsgResponse updateUser(User user) {
-		try {
-			userService.update(user);
+			if(user!=null&&user.getId()!=null){
+				userService.update(user);
+			}else{
+				userService.save(user);
+			}		
 			return MsgResponse.success("success", null);
 		} catch (Exception e) {
 			e.printStackTrace();
